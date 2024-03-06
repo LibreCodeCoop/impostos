@@ -1,0 +1,8 @@
+/vendor-bin/**/vendor/
+/vendor/
+.vscode
+.env
+.php-cs-fixer.cache
+.~lock.*#
+.phpunit.cache
+clover.xml
