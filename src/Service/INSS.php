@@ -28,6 +28,10 @@ namespace Impostos\Service;
 use DateTime;
 use InvalidArgumentException;
 
+/**
+ * @psalm-suppress UnusedClass
+ * @psalm-suppress ClassMustBeFinal
+ */
 class INSS
 {
     private float $baseMaxima;
@@ -53,10 +57,15 @@ class INSS
             throw new InvalidArgumentException('Arquivo da tabela INSS não encontrado: ' . $arquivoDaTabela);
         }
         $data = file_get_contents($arquivoDaTabela);
+        if ($data === false) {
+            throw new InvalidArgumentException('Não foi possível ler o arquivo da tabela INSS: ' . $arquivoDaTabela);
+        }
         if (!json_validate($data)) {
             throw new InvalidArgumentException('Conteúdo do arquivo da tabela INSS ser um JSON: ' . $arquivoDaTabela);
         }
-        $this->tabela = json_decode($data, true);
+        /** @var array<array-key, array<string, float>> $tabela */
+        $tabela = json_decode($data, true);
+        $this->tabela = $tabela;
     }
 
     private function getBaseMaxima(): float
