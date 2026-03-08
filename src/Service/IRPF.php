@@ -103,7 +103,7 @@ class IRPF
     public function calculaBase(float $bruto, float $inss, int $dependentes): float
     {
         $this->rendimentoTributavel = $bruto;
-        if ($this->anoBase >= 2023 && $this->mes >= 5) {
+        if ($this->usaDeducaoFavoravel()) {
             $deducao = $this->calculaDeducaoFavoravel($inss, $dependentes);
         } else {
             $this->tipoDeducao = 'tradicional';
@@ -113,7 +113,16 @@ class IRPF
         if ($base < 0) {
             $base = 0;
         }
-        return $base;
+        return round($base, 3);
+    }
+
+    private function usaDeducaoFavoravel(): bool
+    {
+        if ($this->anoBase > 2023) {
+            return true;
+        }
+
+        return $this->anoBase === 2023 && $this->mes >= 5;
     }
 
     private function calculaDeducaoFavoravel(float $inss, int $dependentes): float
