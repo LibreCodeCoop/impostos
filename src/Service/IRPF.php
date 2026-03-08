@@ -36,6 +36,7 @@ class IRPF
     private array $tabelaProgressiva;
     private array $tabela;
     private string $tipoDeducao = '';
+    private float $rendimentoTributavel = 0;
 
     public function __construct(
         private int $anoBase,
@@ -101,6 +102,7 @@ class IRPF
 
     public function calculaBase(float $bruto, float $inss, int $dependentes): float
     {
+        $this->rendimentoTributavel = $bruto;
         if ($this->anoBase >= 2023 && $this->mes >= 5) {
             $deducao = $this->calculaDeducaoFavoravel($inss, $dependentes);
         } else {
@@ -148,6 +150,41 @@ class IRPF
     public function calcula(float $base, int $dependentes): float
     {
         $faixa = $this->getFaixa($base);
-        return $base * $faixa['aliquota'] - ($faixa['deducao']);
+        $imposto = $base * $faixa['aliquota'] - ($faixa['deducao']);
+        $reducao = $this->calculaReducao($imposto);
+        return $imposto - $reducao;
+    }
+
+    private function calculaReducao(float $imposto): float
+    {
+        if ($imposto <= 0 || !array_key_exists('reducao', $this->tabela)) {
+            return 0;
+        }
+
+        foreach ($this->tabela['reducao'] as $reducao) {
+            if ($this->rendimentoTributavel < $reducao['min']) {
+                continue;
+            }
+            if (!is_null($reducao['max']) && $this->rendimentoTributavel > $reducao['max']) {
+                continue;
+            }
+
+            if ($reducao['tipo'] === 'zerar') {
+                return $imposto;
+            }
+
+            if ($reducao['tipo'] === 'formula') {
+                $valor = $reducao['valor_base'] - $reducao['coeficiente'] * $this->rendimentoTributavel;
+                if ($valor < 0) {
+                    return 0;
+                }
+                if ($valor > $imposto) {
+                    return $imposto;
+                }
+                return $valor;
+            }
+        }
+
+        return 0;
     }
 }
