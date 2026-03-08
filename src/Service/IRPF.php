@@ -30,6 +30,9 @@ use InvalidArgumentException;
 /**
  * Calculadora de teste: https://www27.receita.fazenda.gov.br/simulador-irpf/
  * Fonte de dados: https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas
+ *
+ * @psalm-suppress UnusedClass
+ * @psalm-suppress ClassMustBeFinal
  */
 class IRPF
 {
@@ -56,10 +59,15 @@ class IRPF
             throw new InvalidArgumentException('Arquivo da tabela progressiva do IRPF não encontrado: ' . $arquivoDaTabelaIRPF);
         }
         $data = file_get_contents($arquivoDaTabelaIRPF);
+        if ($data === false) {
+            throw new InvalidArgumentException('Não foi possível ler o arquivo da tabela progressiva do IRPF: ' . $arquivoDaTabelaIRPF);
+        }
         if (!json_validate($data)) {
             throw new InvalidArgumentException('Conteúdo do arquivo da tabela progressiva do IRPF ser um JSON: ' . $arquivoDaTabelaIRPF);
         }
-        $this->tabelaProgressiva = json_decode($data, true);
+        /** @var array<int, list<array<string, mixed>>> $tabelaProgressiva */
+        $tabelaProgressiva = json_decode($data, true);
+        $this->tabelaProgressiva = $tabelaProgressiva;
     }
 
     private function filtraTabelaProgressiva(): array
@@ -72,7 +80,12 @@ class IRPF
             $tabelasDoAnoBase,
             fn (array $t) => $this->isOnMonthInterval($t)
         );
-        return current($aliquotasDoMes);
+        $tabelaDoMes = current($aliquotasDoMes);
+        if ($tabelaDoMes === false) {
+            throw new InvalidArgumentException('Mês inexistente: '. $this->mes . '. Corrija a tabela progressiva do IRPF.');
+        }
+
+        return $tabelaDoMes;
     }
 
     private function isOnMonthInterval(array $row): bool
@@ -156,6 +169,7 @@ class IRPF
         return $inss + $dependentes * $this->tabela['deducao_por_dependente'];
     }
 
+    /** @psalm-suppress PossiblyUnusedParam */
     public function calcula(float $base, int $dependentes): float
     {
         $faixa = $this->getFaixa($base);
