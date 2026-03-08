@@ -189,5 +189,58 @@
                 }
             ]
         }
+    ],
+    "2026": [
+        {
+            "mes_inicio": 1,
+            "mes_fim": null,
+            "deducao_por_dependente": 189.59,
+            "reducao": [
+                {
+                    "min": 0,
+                    "max": 5000,
+                    "tipo": "zerar"
+                },
+                {
+                    "min": 5000.01,
+                    "max": 7350,
+                    "tipo": "formula",
+                    "valor_base": 978.62,
+                    "coeficiente": 0.133145
+                }
+            ],
+            "aliquotas": [
+                {
+                    "min": 0,
+                    "max": 2428.80,
+                    "aliquota": 0,
+                    "deducao": 0
+                },
+                {
+                    "min": 2428.81,
+                    "max": 2826.65,
+                    "aliquota": 0.075,
+                    "deducao": 182.16
+                },
+                {
+                    "min": 2826.66,
+                    "max": 3751.05,
+                    "aliquota": 0.15,
+                    "deducao": 394.16
+                },
+                {
+                    "min": 3751.06,
+                    "max": 4664.68,
+                    "aliquota": 0.225,
+                    "deducao": 675.49
+                },
+                {
+                    "min": 4664.69,
+                    "max": null,
+                    "aliquota": 0.275,
+                    "deducao": 908.73
+                }
+            ]
+        }
     ]
 }

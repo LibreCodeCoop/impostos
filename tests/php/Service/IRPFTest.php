@@ -124,13 +124,40 @@ final class IRPFTest extends TestCase
                     'deducao' => 884.96,
                 ],
             ],
+            [
+                'ano' => 2026,
+                'mes' => 1,
+                'base' => 2428.80,
+                'faixa' => [
+                    'aliquota' => 0,
+                    'deducao' => 0,
+                ],
+            ],
+            [
+                'ano' => 2026,
+                'mes' => 1,
+                'base' => 2826.65,
+                'faixa' => [
+                    'aliquota' => 0.075,
+                    'deducao' => 182.16,
+                ],
+            ],
+            [
+                'ano' => 2026,
+                'mes' => 1,
+                'base' => 4664.69,
+                'faixa' => [
+                    'aliquota' => 0.275,
+                    'deducao' => 908.73,
+                ],
+            ],
         ];
     }
 
     #[DataProvider('providerCalculaBase')]
     public function testCalculaBase(int $ano, int $mes, float $bruto, int $dependentes, float $valor, string $tipoDeducao): void
     {
-        $inss = (new INSS(2023))->calcula($bruto);
+        $inss = (new INSS($ano))->calcula($bruto);
         $IRPF = new IRPF($ano, $mes);
         $atual = $IRPF->calculaBase($bruto, $inss, $dependentes);
         $tipoDeducaoAtual = $IRPF->getTipoDeducao();
@@ -147,13 +174,18 @@ final class IRPFTest extends TestCase
             [2023, 5, 9000, 0, 7582.556, 'tradicional'],
             [2023, 5, 2600, 0, 2072, 'simplificada'],
             [2023, 4, 2600, 0, 2080, 'tradicional'],
+            [2026, 1, 300, 0, 0, 'simplificada'],
+            [2026, 1, 1000, 0, 392.8, 'simplificada'],
+            [2026, 1, 3000, 0, 2392.8, 'simplificada'],
+            [2026, 1, 5000, 0, 4000, 'tradicional'],
+            [2026, 1, 6000, 0, 4800, 'tradicional'],
         ];
     }
 
     #[DataProvider('providerCalculaImposto')]
     public function testCalculaImposto(int $ano, int $mes, float $bruto, int $dependentes, float $valor, string $tipoDeducao): void
     {
-        $inss = (new INSS(2023))->calcula($bruto);
+        $inss = (new INSS($ano))->calcula($bruto);
         $IRPF = new IRPF($ano, $mes);
         $base = $IRPF->calculaBase($bruto, $inss, $dependentes);
         $atual = $IRPF->calcula($base, $dependentes);
@@ -183,6 +215,12 @@ final class IRPFTest extends TestCase
             [2023, 5, 9000, 2, 1095.97, 'tradicional'],
             [2023, 5, 2600, 2, 0, 'simplificada'],
             [2023, 4, 2600, 2, 0, 'tradicional'],
+            [2026, 1, 1000, 0, 0, 'simplificada'],
+            [2026, 1, 3000, 0, 0, 'simplificada'],
+            [2026, 1, 5000, 0, 0, 'tradicional'],
+            [2026, 1, 5200, 0, 0, 'tradicional'],
+            [2026, 1, 6000, 0, 231.52, 'tradicional'],
+            [2026, 1, 8000, 0, 851.27, 'tradicional'],
         ];
     }
 }
