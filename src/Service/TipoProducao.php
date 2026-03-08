@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2023, Vitor Mattos <vitor@php.rio>
  *
@@ -25,6 +26,9 @@ declare(strict_types=1);
 
 namespace Impostos\Service;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 enum TipoProducao: int
 {
     case PRODUCAO_INTERNA = 1;
