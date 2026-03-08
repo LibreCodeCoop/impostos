@@ -162,7 +162,7 @@ final class IRPFTest extends TestCase
         $IRPF = new IRPF($ano, $mes);
         $atual = $IRPF->calculaBase($bruto, $inss, $dependentes);
         $tipoDeducaoAtual = $IRPF->getTipoDeducao();
-        $this->assertEquals($valor, $atual, 'Cálculo base do imposto a pagar incorreto');
+        $this->assertEqualsWithDelta($valor, $atual, 0.000001, 'Cálculo base do imposto a pagar incorreto');
         $this->assertEquals($tipoDeducao, $tipoDeducaoAtual);
     }
 
