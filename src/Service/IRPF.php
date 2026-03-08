@@ -127,7 +127,7 @@ class IRPF
         if ($base < 0) {
             $base = 0;
         }
-        return round($base, 3);
+        return $base;
     }
 
     private function usaDeducaoFavoravel(): bool
