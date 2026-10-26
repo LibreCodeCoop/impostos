@@ -15,13 +15,13 @@
                     "min": 1993.99,
                     "max": 2826.65,
                     "aliquota": 0.075,
-                    "deducao": 142.80
+                    "deducao": 142.8
                 },
                 {
                     "min": 2826.66,
                     "max": 3751.05,
                     "aliquota": 0.15,
-                    "deducao": 354.80
+                    "deducao": 354.8
                 },
                 {
                     "min": 3751.06,
@@ -52,13 +52,13 @@
                     "min": 2112.01,
                     "max": 2826.65,
                     "aliquota": 0.075,
-                    "deducao": 158.40
+                    "deducao": 158.4
                 },
                 {
                     "min": 2826.66,
                     "max": 3751.05,
                     "aliquota": 0.15,
-                    "deducao": 370.40
+                    "deducao": 370.4
                 },
                 {
                     "min": 3751.06,
@@ -91,13 +91,13 @@
                     "min": 2112.01,
                     "max": 2826.65,
                     "aliquota": 0.075,
-                    "deducao": 158.40
+                    "deducao": 158.4
                 },
                 {
                     "min": 2826.66,
                     "max": 3751.05,
                     "aliquota": 0.15,
-                    "deducao": 370.40
+                    "deducao": 370.4
                 },
                 {
                     "min": 3751.06,
@@ -114,13 +114,13 @@
             ]
         },
         {
-            "mes_inicio": 1,
+            "mes_inicio": 2,
             "mes_fim": null,
             "deducao_por_dependente": 189.59,
             "aliquotas": [
                 {
                     "min": 0,
-                    "max": 2259.20,
+                    "max": 2259.2,
                     "aliquota": 0,
                     "deducao": 0
                 },
@@ -154,12 +154,12 @@
     "2025": [
         {
             "mes_inicio": 1,
-            "mes_fim": null,
+            "mes_fim": 4,
             "deducao_por_dependente": 189.59,
             "aliquotas": [
                 {
                     "min": 0,
-                    "max": 2259.20,
+                    "max": 2259.2,
                     "aliquota": 0,
                     "deducao": 0
                 },
@@ -188,6 +188,43 @@
                     "deducao": 896
                 }
             ]
+        },
+        {
+            "mes_inicio": 5,
+            "mes_fim": 12,
+            "deducao_por_dependente": 189.59,
+            "aliquotas": [
+                {
+                    "min": 0,
+                    "max": 2428.8,
+                    "aliquota": 0,
+                    "deducao": 0
+                },
+                {
+                    "min": 2428.81,
+                    "max": 2826.65,
+                    "aliquota": 0.075,
+                    "deducao": 182.16
+                },
+                {
+                    "min": 2826.66,
+                    "max": 3751.05,
+                    "aliquota": 0.15,
+                    "deducao": 394.16
+                },
+                {
+                    "min": 3751.06,
+                    "max": 4664.68,
+                    "aliquota": 0.225,
+                    "deducao": 675.49
+                },
+                {
+                    "min": 4664.69,
+                    "max": null,
+                    "aliquota": 0.275,
+                    "deducao": 908.73
+                }
+            ]
         }
     ],
     "2026": [
@@ -212,7 +249,7 @@
             "aliquotas": [
                 {
                     "min": 0,
-                    "max": 2428.80,
+                    "max": 2428.8,
                     "aliquota": 0,
                     "deducao": 0
                 },

@@ -141,9 +141,12 @@ class IRPF
 
     private function calculaDeducaoFavoravel(float $inss, int $dependentes): float
     {
-        $simplificada = $this->calculaDeducaoSimplificada($inss);
+        $simplificada = $this->calculaDeducaoSimplificada();
         $tradicional = $this->calculaDeducaoTradicional($inss, $dependentes);
-        if ($simplificada <= $this->tabela['aliquotas'][0]['max'] * 0.25) {
+        // Compare both actual deductions, including dependents. The previous
+        // test compared the simplified value with its cap and ignored the
+        // total traditional deduction when INSS was below the cap.
+        if ($simplificada > $tradicional) {
             $this->tipoDeducao = 'simplificada';
             return $simplificada;
         }
@@ -156,13 +159,10 @@ class IRPF
         return $this->tipoDeducao;
     }
 
-    private function calculaDeducaoSimplificada(float $inss): float
+    private function calculaDeducaoSimplificada(): float
     {
-        $deducaoAliquotaPrimeiraFaixa = $this->tabela['aliquotas'][0]['max'] * 0.25;
-        if ($deducaoAliquotaPrimeiraFaixa > $inss) {
-            return $deducaoAliquotaPrimeiraFaixa;
-        }
-        return $inss;
+        // This option replaces (rather than adds to) legally allowed deductions.
+        return $this->tabela['aliquotas'][0]['max'] * 0.25;
     }
 
     private function calculaDeducaoTradicional(float $inss, int $dependentes): float
